@@ -164,8 +164,14 @@ public class LegendRenderer {
 
         int shapeSize = (int) (mStyles.textSize*0.8d);
 
-        List<Series> allSeries = new ArrayList<Series>();
-        allSeries.addAll(mGraphView.getSeries());
+        List<Series> allSeries = new ArrayList<Series>(mGraphView.getSeries().size());
+        for (int i = 0, size = mGraphView.getSeries().size(); i < size; i++) {
+            if(mGraphView.getSeries().get(i).getTitle() != null) {
+                allSeries.add(mGraphView.getSeries().get(i));
+            }
+        }
+
+
         if (mGraphView.mSecondScale != null) {
             allSeries.addAll(mGraphView.getSecondScale().getSeries());
         }
