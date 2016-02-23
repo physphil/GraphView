@@ -20,7 +20,6 @@
 package com.jjoe64.graphview.series;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -110,6 +109,12 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
      * handler to use a custom drawing
      */
     private CustomShape mCustomShape;
+
+    /**
+     * flag whether the values should drawn
+     * above the bars as text
+     */
+    private boolean mDrawValuesOnTop;
 
     /**
      * creates the series without data
@@ -233,9 +238,13 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
                 }
             }
 
+            if(mDrawValuesOnTop)
+            {
+                canvas.drawText("99", endX, endY, mPaint);
+            }
+
             i++;
         }
-
     }
 
     /**
@@ -308,5 +317,22 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
      */
     public void setCustomShape(CustomShape shape) {
         mCustomShape = shape;
+    }
+
+    /**
+     * @return whether the values should be drawn above the bars
+     */
+    public boolean isDrawValuesOnTop()
+    {
+        return mDrawValuesOnTop;
+    }
+
+    /**
+     * @param drawValuesOnTop  flag whether the values should drawn
+     *                          above the bars as text
+     */
+    public void setDrawValuesOnTop(boolean drawValuesOnTop)
+    {
+        mDrawValuesOnTop = drawValuesOnTop;
     }
 }
