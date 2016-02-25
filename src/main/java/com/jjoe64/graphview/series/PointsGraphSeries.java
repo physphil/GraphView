@@ -36,6 +36,7 @@ import java.util.Iterator;
  * @author jjoe64
  */
 public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<E> {
+
     /**
      * interface to implement a custom
      * drawing for the data points.
@@ -117,6 +118,20 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
     private boolean mDrawValuesOnTop;
 
     /**
+     * color of the text above the point.
+     *
+     * @see #mDrawValuesOnTop
+     */
+    private int mValuesOnTopColor;
+
+    /**
+     * font size of the text above the point.
+     *
+     * @see #mDrawValuesOnTop
+     */
+    private float mValuesOnTopSize;
+
+    /**
      * creates the series without data
      */
     public PointsGraphSeries() {
@@ -177,8 +192,6 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
         double lastEndX = 0;
 
         // draw data
-        mPaint.setColor(getColor());
-
         double diffY = maxY - minY;
         double diffX = maxX - minX;
 
@@ -192,6 +205,7 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
         float firstX = 0;
         int i=0;
         while (values.hasNext()) {
+            mPaint.setColor(getColor());
             E value = values.next();
 
             double valY = value.getY() - minY;
@@ -238,9 +252,11 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
                 }
             }
 
+            mPaint.setColor(mValuesOnTopColor);
+            mPaint.setTextSize(mValuesOnTopSize);
             if(mDrawValuesOnTop)
             {
-                canvas.drawText("99", endX, endY, mPaint);
+                canvas.drawText("127", endX - (mValuesOnTopSize / 2), endY - mValuesOnTopSize, mPaint);
             }
 
             i++;
@@ -269,8 +285,8 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
         Path path = new Path();
         path.moveTo(point[0].x , point[0].y);
         path.lineTo(point[1].x,point[1].y);
-        path.lineTo(point[2].x,point[2].y);
-        canvas.drawPath(path,paint);
+        path.lineTo(point[2].x, point[2].y);
+        canvas.drawPath(path, paint);
     }
 
     /**
@@ -334,5 +350,37 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
     public void setDrawValuesOnTop(boolean drawValuesOnTop)
     {
         mDrawValuesOnTop = drawValuesOnTop;
+    }
+
+    /**
+     * @return font color of the values on top of the bars
+     * @see #setDrawValuesOnTop(boolean)
+     */
+    public int getValuesOnTopColor() {
+        return mValuesOnTopColor;
+    }
+
+    /**
+     * @param mValuesOnTopColor the font color of the values on top of the bars
+     * @see #setDrawValuesOnTop(boolean)
+     */
+    public void setValuesOnTopColor(int mValuesOnTopColor) {
+        this.mValuesOnTopColor = mValuesOnTopColor;
+    }
+
+    /**
+     * @return font size of the values above the bars
+     * @see #setDrawValuesOnTop(boolean)
+     */
+    public float getValuesOnTopSize() {
+        return mValuesOnTopSize;
+    }
+
+    /**
+     * @param mValuesOnTopSize font size of the values above the bars
+     * @see #setDrawValuesOnTop(boolean)
+     */
+    public void setValuesOnTopSize(float mValuesOnTopSize) {
+        this.mValuesOnTopSize = mValuesOnTopSize;
     }
 }
