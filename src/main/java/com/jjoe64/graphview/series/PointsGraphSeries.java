@@ -26,6 +26,7 @@ import android.graphics.Point;
 
 import com.jjoe64.graphview.GraphView;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 
 /**
@@ -95,6 +96,11 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
          */
         Shape shape;
     }
+
+    /**
+     * Decimal format used for displaying reading values on graph
+     */
+    private static final String NUMBER_FORMAT = "##.#";
 
     /**
      * wrapped styles
@@ -170,6 +176,7 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
     @Override
     public void draw(GraphView graphView, Canvas canvas, boolean isSecondScale) {
         resetDataPoints();
+        DecimalFormat df = new DecimalFormat(NUMBER_FORMAT);
 
         // get data
         double maxX = graphView.getViewport().getMaxX(false);
@@ -256,7 +263,7 @@ public class PointsGraphSeries<E extends DataPointInterface> extends BaseSeries<
             mPaint.setTextSize(mValuesOnTopSize);
             if(mDrawValuesOnTop)
             {
-                canvas.drawText("127", endX - (mValuesOnTopSize / 2), endY - mValuesOnTopSize, mPaint);
+                canvas.drawText(df.format(value.getY()), endX - (mValuesOnTopSize / 2), endY - mValuesOnTopSize, mPaint);
             }
 
             i++;
